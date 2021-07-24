@@ -1,0 +1,26 @@
+{
+  "name": "toshokan-api",
+  "version": "1.0.0",
+  "description": "a graphql server for Toshokan (a library management system)",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prajwal264/toshokan-api.git"
+  },
+  "keywords": [
+    "apollo",
+    "graphql"
+  ],
+  "author": "Prajwal264",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Prajwal264/toshokan-api/issues"
+  },
+  "homepage": "https://github.com/Prajwal264/toshokan-api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
