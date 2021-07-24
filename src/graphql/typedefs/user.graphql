@@ -1,3 +1,13 @@
 type Query {
-  totalPosts: Int!
+  users: [User!]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type Mutation {
+  createUser(name: String!, email: String!): User!
 }
