@@ -1,9 +1,16 @@
 const { ApolloServer } = require("apollo-server-express");
 const express = require("express");
 const mongoose = require("mongoose");
+const { verifyToken } = require("./verifyToken");
+
 const startServer = async (schema) => {
   const apolloServer = new ApolloServer({
     schema,
+    context: ({ req }) => {
+      const token = req.get("Authorization") || "";
+      return { user: verifyToken(token.replace("Bearer", "")) };
+    },
+    introspection: true,
   });
 
   //express server

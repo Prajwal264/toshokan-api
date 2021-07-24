@@ -2,12 +2,31 @@ type Query {
   users: [User!]!
 }
 
+type RegisterResponse {
+  token: String!
+  id: String!
+  username: String
+  email: String!
+  message: String!
+}
+
+type LoginResponse {
+  token: String!
+  user: User!
+}
+
 type User {
   id: ID!
-  name: String!
+  username: String!
   email: String!
+  password: String!
 }
 
 type Mutation {
-  createUser(name: String!, email: String!): User!
+  register(
+    username: String!
+    email: String!
+    password: String
+  ): RegisterResponse!
+  login(email: String!, password: String!): LoginResponse!
 }
