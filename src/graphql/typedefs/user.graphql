@@ -2,12 +2,19 @@ type Query {
   users: [User!]!
 }
 
+enum UserRole {
+  ADMIN
+  MANAGER
+  CONSUMER
+}
+
 type RegisterResponse {
   token: String!
   id: String!
   username: String
   email: String!
   message: String!
+  role: UserRole!
 }
 
 type LoginResponse {
@@ -20,13 +27,15 @@ type User {
   username: String!
   email: String!
   password: String!
+  role: UserRole!
 }
 
 type Mutation {
   register(
     username: String!
     email: String!
-    password: String
+    password: String!
+    role: UserRole!
   ): RegisterResponse!
   login(email: String!, password: String!): LoginResponse!
 }

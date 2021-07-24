@@ -10,12 +10,13 @@ module.exports = {
     },
   },
   Mutation: {
-    register: async (_, { username, email, password }) => {
+    register: async (_, { username, email, password, role }) => {
       try {
         const user = await User.create({
           username,
           email,
           password: await bcrypt.hash(password, 10),
+          role,
         });
         const token = jsonwebtoken.sign(
           { id: user.id, email: user.email },
@@ -27,6 +28,7 @@ module.exports = {
           id: user.id,
           username: user.username,
           email: user.email,
+          role: user.role,
           message: "Authentication succesfull",
         };
       } catch (error) {
@@ -43,11 +45,16 @@ module.exports = {
         if (!isValid) {
           throw new Error("Incorrect password");
         }
-        // return jwt
+        delete user.password;
         const token = jsonwebtoken.sign(
-          { id: user.id, email: user.email },
+          {
+            id: user.id,
+            email: user.email,
+          },
           process.env.JWT_SECRET,
-          { expiresIn: "1d" }
+          {
+            expiresIn: "1d",
+          }
         );
         return {
           token,
