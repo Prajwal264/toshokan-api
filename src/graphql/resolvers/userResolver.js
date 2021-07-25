@@ -12,25 +12,31 @@ module.exports = {
   Mutation: {
     register: async (_, { username, email, password, role }) => {
       try {
-        const user = await User.create({
-          username,
-          email,
-          password: await bcrypt.hash(password, 10),
-          role,
-        });
-        const token = jsonwebtoken.sign(
-          { id: user.id, email: user.email },
-          process.env.JWT_SECRET,
-          { expiresIn: "1y" }
-        );
-        return {
-          token,
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          role: user.role,
-          message: "Authentication succesfull",
-        };
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          throw new Error("Account Already Exists");
+        } else {
+          const user = await User.create({
+            username,
+            email,
+            password: await bcrypt.hash(password, 10),
+            role,
+          });
+          const token = jsonwebtoken.sign(
+            { id: user.id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "1y" }
+          );
+          console.log(user);
+          return {
+            token,
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            message: "Authentication succesfull",
+          };
+        }
       } catch (error) {
         throw new Error(error.message);
       }
