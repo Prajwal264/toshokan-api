@@ -28,6 +28,7 @@ type User {
   email: String!
   password: String!
   role: UserRole!
+  createdAt: Date!
 }
 
 type Mutation {

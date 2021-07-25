@@ -1,6 +1,6 @@
 const User = require("../../models/User");
-const jsonwebtoken = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { createToken } = require("../../helpers/token");
 
 module.exports = {
   Query: {
@@ -21,13 +21,9 @@ module.exports = {
             email,
             password: await bcrypt.hash(password, 10),
             role,
+            createdAt: new Date().toISOString(),
           });
-          const token = jsonwebtoken.sign(
-            { id: user.id, email: user.email },
-            process.env.JWT_SECRET,
-            { expiresIn: "1y" }
-          );
-          console.log(user);
+          const token = createToken(user, "1y");
           return {
             token,
             id: user.id,
@@ -35,6 +31,7 @@ module.exports = {
             email: user.email,
             role: user.role,
             message: "Authentication succesfull",
+            createdAt: user.createdAt,
           };
         }
       } catch (error) {
@@ -52,16 +49,7 @@ module.exports = {
           throw new Error("Incorrect password");
         }
         delete user.password;
-        const token = jsonwebtoken.sign(
-          {
-            id: user.id,
-            email: user.email,
-          },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: "1d",
-          }
-        );
+        const token = createToken(user, "1d");
         return {
           token,
           user,

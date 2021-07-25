@@ -1,7 +1,7 @@
 const { ApolloServer } = require("apollo-server-express");
 const express = require("express");
 const mongoose = require("mongoose");
-const { verifyToken } = require("./verifyToken");
+const { verifyToken } = require("./token");
 
 const startServer = async (schema) => {
   const apolloServer = new ApolloServer({
