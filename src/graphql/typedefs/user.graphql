@@ -17,18 +17,18 @@ type RegisterResponse {
   role: UserRole!
 }
 
-type LoginResponse {
-  token: String!
-  user: User!
-}
-
 type User {
   id: ID!
   username: String!
   email: String!
   password: String!
   role: UserRole!
-  createdAt: Date!
+  createdAt: String!
+}
+
+type LoginResponse {
+  token: String!
+  user: User!
 }
 
 type Mutation {
